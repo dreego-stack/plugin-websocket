@@ -1,0 +1,57 @@
+name: release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: false
+      - name: Test
+        run: go test -race ./...
+      - name: Release
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if ! find .changes -maxdepth 1 -type f -name '*.md' ! -name README.md | grep -q .; then
+            echo "no pending change files"
+            exit 0
+          fi
+
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          patch=$(echo "$latest_tag" | sed 's/v0\.0\.\([0-9]*\)/\1/')
+          new_tag="v0.0.$((patch + 1))"
+
+          changelog=$(cat .changes/*.md | grep -E '^- ' | sed 's/^- /- /')
+          {
+            echo "## $new_tag"
+            echo ""
+            echo "$changelog"
+            echo ""
+            cat CHANGELOG.md 2>/dev/null || true
+          } > CHANGELOG.md.new
+          mv CHANGELOG.md.new CHANGELOG.md
+
+          rm .changes/*.md
+          git add -A
+          git commit -m "docs: apply pending release notes"
+          git tag "$new_tag"
+          git push origin main
+          git push origin "$new_tag"

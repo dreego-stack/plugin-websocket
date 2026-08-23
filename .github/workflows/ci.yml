@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: false
+      - name: go vet
+        run: go vet ./...
+      - name: go test -race
+        run: CGO_ENABLED=1 go test -race ./...
+
+  compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: false
+      - name: Test against latest dreego tag
+        run: |
+          go get github.com/dreego-stack/dreego@latest
+          go mod tidy
+          go test -race ./...
