@@ -1,2 +1,4 @@
-github.com/dreego-stack/dreego v0.0.69 h1:rWH9V5J7LZ+3kOGv8RkpSH6NBYkV8rW8/5Ai/EzYoEE=
-github.com/dreego-stack/dreego v0.0.69/go.mod h1:NMXS0nN8PUU6ywpjbTsZxaXv3KKmvItUTqa54KeL6uE=
+github.com/dreego-stack/dreego v0.7.0 h1:ttA28rH44VWeyGU2hM34Eqjdtw3RM3KcA9OXu108HYc=
+github.com/dreego-stack/dreego v0.7.0/go.mod h1:SAskZYySeLEIS1IuzTrAMmsKPi1hiQIzhBY812RVcVU=
+golang.org/x/text v0.22.0 h1:bofq7m3/HAFvbF51jz3Q9wLg3jkvSPuiZu/pD1XwgtM=
+golang.org/x/text v0.22.0/go.mod h1:YRoo4H8PVmsu+E3Ou7cqLVH8oXWIHVoX0jqUWALQhfY=
