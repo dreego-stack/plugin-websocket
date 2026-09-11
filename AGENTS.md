@@ -54,7 +54,7 @@ No external WebSocket library is used.
 
 - Max 300 lines per handwritten file
 - No code comments (except where needed for clarity)
-- Go 1.22+, standard library only (no external deps)
+- Go 1.27+, standard library only (no external deps)
 - One Go package per repository
 
 ## Commit Convention

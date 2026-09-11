@@ -6,6 +6,7 @@ import (
 	"time"
 
 	dreego "github.com/dreego-stack/dreego/core"
+	"github.com/dreego-stack/dreego/core/ssr"
 	ws "github.com/dreego-stack/plugin-websocket"
 )
 
@@ -19,7 +20,7 @@ func main() {
 	if port := os.Getenv("PORT"); port != "" {
 		addr = ":" + port
 	}
-	if err := app.Listen(addr); err != nil {
+	if err := ssr.Listen(app, addr); err != nil {
 		log.Fatal(err)
 	}
 }
